@@ -1,4 +1,4 @@
-import { isValidEmail } from "../../../../../utils";
+import { isValidEmail, isValidPassword } from "../../../../../utils/validate";
 import { LoginParams, LoginValidation } from "../../../types";
 
 const validateEmail = (email: string) => {
@@ -12,8 +12,11 @@ const validateEmail = (email: string) => {
 
 const validatePassword = (password: string) => {
     if(!password) return 'Password is required';
-    if(password.length < 4) {
-        return 'Password must be at least 4 characters';
+    if(password.length <= 6) {
+        return 'Password must be at least 6 characters';
+    }
+    if(!isValidPassword(password)){
+        return 'Password not strong enough';
     }
     return '';
 }

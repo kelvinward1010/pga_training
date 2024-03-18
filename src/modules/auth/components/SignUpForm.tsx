@@ -37,7 +37,7 @@ const SignUpForm: React.FC<Props> = ({
     const onSubmit = useCallback(async () => {
 
         const validate = validateSignup(formValues)
-
+        
         setValidate(validate);
 
         if(!validSignup(validate)){
@@ -133,7 +133,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.email && (
                         <small className="text-danger">
-                            Invalid email
+                            {validate.email}
                         </small>
                     )}
                 </div>
@@ -153,7 +153,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.password && (
                         <small className="text-danger">
-                            Invalid password
+                            {validate.password}
                         </small>
                     )}
                 </div>
@@ -172,7 +172,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.repeatPassword && (
                         <small className="text-danger">
-                            Invalid RepeatPassword
+                            {validate.repeatPassword}
                         </small>
                     )}
                 </div>
@@ -192,7 +192,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.name && (
                         <small className="text-danger">
-                            Invalid name
+                            {validate.name}
                         </small>
                     )}
                 </div>
@@ -213,7 +213,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.gender && (
                         <small className="text-danger">
-                            Invalid gender
+                            {validate.gender}
                         </small>
                     )}
                 </div>
@@ -234,7 +234,7 @@ const SignUpForm: React.FC<Props> = ({
 
                     {!!validate?.region && (
                         <small className="text-danger">
-                            Invalid region
+                            {validate.region}
                         </small>
                     )}
                 </div>
@@ -256,7 +256,7 @@ const SignUpForm: React.FC<Props> = ({
 
                         {!!validate?.state && (
                             <small className="text-danger">
-                                Invalid State
+                                {validate.state}
                             </small>
                         )}
                     </div>

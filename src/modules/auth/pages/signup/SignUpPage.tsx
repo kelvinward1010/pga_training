@@ -3,6 +3,7 @@ import SignUpForm from '../../components/SignUpForm'
 import { useCallback, useEffect, useState } from "react";
 import { LOCATIONS } from "../../data";
 import { ILocationParams, ISignUpParams } from "../../types";
+import { Link } from "react-router-dom";
 
 export function SignUpPage() {
 
@@ -41,6 +42,13 @@ export function SignUpPage() {
                 </div>
                 <div className={styles.signupFormMain}>
                     <SignUpForm onSignUp={onSignUp} loading={loading} errorMessage={errorMessage} locations={locations}/>
+                </div>
+                <div className="row justify-content-center mb-2">
+                    <div className="col-auto">
+                        <Link to={'/login'}>
+                            Login
+                        </Link>
+                    </div>
                 </div>
             </div>
         </div>

@@ -22,14 +22,19 @@ const LoginForm: React.FC<LoginFormProps> = ({
     })
 
     const [validate, setValidate] = useState<LoginValidation>();
+    const [done, setDone] = useState(true);
 
+    
     const handleChange = (e: any) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
+        if(formValues.email != '' && formValues.password != ''){
+            setDone(false)
+        }
     };
 
     const onSubmit =  useCallback(() => {
         const validate = validateLogin(formValues)
-
+        
         setValidate(validate);
 
         if(!validLogin(validate)){
@@ -38,7 +43,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
         onLogin(formValues);
     },[formValues, onLogin])
-
+    
     return (
         <>
             {errorMessage != '' ? <p>{errorMessage}</p> : null}
@@ -120,6 +125,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
+                            disabled={loading || done}
                         >   
                             Đăng Nhập
                         </button>
