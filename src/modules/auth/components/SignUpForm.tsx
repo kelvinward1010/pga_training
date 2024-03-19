@@ -29,9 +29,13 @@ const SignUpForm: React.FC<Props> = ({
     })
 
     const [validate, setValidate] = useState<ISignUpParams>();
+    const [done, setDone] = useState(true);
 
     const handleChange = (e: any) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
+        if(formValues.email != '' && formValues.password != ''){
+            setDone(false);
+        }
     };
 
     const onSubmit = useCallback(async () => {
@@ -275,8 +279,8 @@ const SignUpForm: React.FC<Props> = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            disabled={loading}
-                        >   
+                            disabled={loading || done}
+                        >
                             Đăng Kí
                             {loading && <div className="spinner-border spinner-border-sm text-light ml-2" role="status"/>}
                         </button>

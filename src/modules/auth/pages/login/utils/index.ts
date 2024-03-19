@@ -12,12 +12,12 @@ const validateEmail = (email: string) => {
 
 const validatePassword = (password: string) => {
     if(!password) return 'Password is required';
-    if(password.length <= 6) {
+    if(password.length < 6) {
         return 'Password must be at least 6 characters';
     }
-    if(!isValidPassword(password)){
-        return 'Password not strong enough';
-    }
+    // if(!isValidPassword(password)){
+    //     return 'Password not strong enough';
+    // }
     return '';
 }
 

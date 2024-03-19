@@ -1,1 +1,1 @@
-export const BASE_URL = 'https://fastapi-mongodb-hhj9.onrender.com/';
+export const BASE_URL = 'https://api.gearfocus.div4.pgtest.co/api';

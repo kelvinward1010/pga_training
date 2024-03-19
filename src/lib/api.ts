@@ -2,7 +2,7 @@ import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { BASE_URL } from "../contants/config";
 import storage from "../utils/storage";
 
-const apiClient = axios.create({
+export const apiClient = axios.create({
   baseURL: BASE_URL,
   timeout: 1000 * 60 * 30 * 2 * 24 * 24 // 1 DAY
 })
@@ -33,7 +33,7 @@ export async function useFetchApi<T>(
     };
 
     const response = await apiClient(config);
-    return response.data;
+    return response.data
   } catch (error) {
     const axiosError = error as AxiosError;
     if (axiosError.response) {
@@ -49,6 +49,7 @@ export async function useFetchApi<T>(
       }
     } else {
       console.error('Network error:', axiosError.message);
+      return Promise.reject(axiosError.message);
     }
     return Promise.reject(axiosError.message);
   }

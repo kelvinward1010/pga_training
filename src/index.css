@@ -6,3 +6,11 @@
   width: 100vw;
   height: 100vh;
 }
+
+.done{
+  color: rgb(16, 167, 16);
+}
+
+.warning{
+  color: red;
+}

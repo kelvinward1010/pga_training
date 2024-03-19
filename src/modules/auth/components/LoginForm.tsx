@@ -27,9 +27,9 @@ const LoginForm: React.FC<LoginFormProps> = ({
     
     const handleChange = (e: any) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
-        if(formValues.email != '' && formValues.password != ''){
-            setDone(false)
-        }
+        // if(formValues.email != '' && formValues.password != ''){
+        //     setDone(false);
+        // }
     };
 
     const onSubmit =  useCallback(() => {
@@ -74,7 +74,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
                     {!!validate?.email && (
                         <small className="text-danger">
-                            Invalid email
+                            {validate.email}
                         </small>
                     )}
                 </div>
@@ -94,7 +94,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
                     {!!validate?.password && (
                         <small className="text-danger">
-                            Invalid password
+                            {validate.password}
                         </small>
                     )}
                 </div>
@@ -125,7 +125,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                                 alignItems: "center",
                                 justifyContent: "center",
                             }}
-                            disabled={loading || done}
+                            disabled={loading}
                         >   
                             Đăng Nhập
                         </button>
