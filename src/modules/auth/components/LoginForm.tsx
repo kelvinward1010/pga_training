@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 import { LoginParams, LoginValidation } from "../types";
 import { validLogin, validateLogin } from "../pages/login/utils";
+import { AppDispatch } from "../../../redux/store";
+import { useDispatch } from "react-redux";
+import { loginUser } from "../../../redux/actions/authActions";
 
 interface LoginFormProps {
     onLogin: (values: LoginParams) => void;
@@ -23,6 +26,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
 
     const [validate, setValidate] = useState<LoginValidation>();
     const [done, setDone] = useState(true);
+    const dispatch: AppDispatch = useDispatch();
 
     
     const handleChange = (e: any) => {
@@ -42,7 +46,11 @@ const LoginForm: React.FC<LoginFormProps> = ({
         }
 
         onLogin(formValues);
-    },[formValues, onLogin])
+    },[formValues, onLogin]);
+
+    const testLogin = (values: LoginValidation) => {
+        dispatch(loginUser(values))
+    }
     
     return (
         <>
@@ -55,7 +63,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 noValidate
                 onSubmit={(e) => {
                     e.preventDefault();
-                    onSubmit();
+                    // onSubmit();
+                    testLogin(formValues);
                 }}
                 className="row g-3 needs-validation"
             >

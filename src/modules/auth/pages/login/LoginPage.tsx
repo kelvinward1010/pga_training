@@ -1,23 +1,22 @@
 import { useCallback, useContext, useEffect, useState } from "react";
 import LoginForm from "../../components/LoginForm";
 import styles from "./style.module.scss";
-import { LoginParams } from "../../types";
+import { LoginParams, LoginValidation } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
 import { useFetchApi } from "../../../../lib/api";
 import { BASE_URL } from "../../../../contants/config";
 import { notification } from "antd";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
-import storage from "../../../../utils/storage";
 import { homeUrl, signupUrl } from "../../../../routers/urls";
 import { AuthContext } from "../../../../context/AuthContext";
 import storageInfoUser from "../../../../utils/userStorage";
+import storageFetch from "../../../../utils/storage";
 
 export function LoginPage() {
 
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<any>();
-
     const auth = useContext(AuthContext);
 
     const onLogin = useCallback(async (values: LoginParams) => {
@@ -38,7 +37,7 @@ export function LoginPage() {
                         <CheckCircleOutlined className="done" />
                     )
                 })
-                storage.setToken(res.user_cookie)
+                storageFetch.setToken(res.user_cookie)
                 storageInfoUser.setUserInfo({email: values.email});
                 setLoading(false)
                 navigate(homeUrl)
@@ -67,7 +66,7 @@ export function LoginPage() {
     },[navigate, auth])
 
     useEffect(() => {
-        if (storage.getToken()) navigate(homeUrl)
+        if (storageFetch.getToken()) navigate(homeUrl)
     }, [navigate]);
 
     return (

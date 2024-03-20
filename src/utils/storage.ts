@@ -2,7 +2,7 @@
 //user_cookie
 
 
-const storage = {
+const storageFetch = {
     getToken: () => {
         return JSON.parse(
             window.localStorage.getItem(`user_cookie`) as string,
@@ -16,4 +16,4 @@ const storage = {
     },
 };
 
-export default storage;
+export default storageFetch;

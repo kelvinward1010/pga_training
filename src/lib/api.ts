@@ -1,6 +1,6 @@
 import axios, { AxiosError, AxiosRequestConfig } from "axios";
 import { BASE_URL } from "../contants/config";
-import storage from "../utils/storage";
+import storageFetch from "../utils/storage";
 
 export const apiClient = axios.create({
   baseURL: BASE_URL,
@@ -10,7 +10,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = "Bearer" + storage.getToken();
+    config.headers.Authorization = "Bearer" + storageFetch.getToken();
     return Promise.resolve(config);
   },
   function (error) {

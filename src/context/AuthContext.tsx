@@ -1,10 +1,10 @@
-import React, { createContext, useCallback, useEffect, useState } from "react";
+import React, { createContext, useCallback } from "react";
 import { BASE_URL } from "../contants/config";
 import { useFetchApi } from "../lib/api";
 import { notification } from "antd";
-import storage from "../utils/storage";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 import storageInfoUser from "../utils/userStorage";
+import storageFetch from "../utils/storage";
 
 
 interface AuthProviderProps {
@@ -44,7 +44,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
                         <CheckCircleOutlined className="done" />
                     )
                 })
-                storage.setToken(res.user_cookie);
+                storageFetch.setToken(res.user_cookie);
                 storageInfoUser.setUserInfo({email});
             }else{
                 notification.error({
@@ -67,7 +67,7 @@ export const AuthProvider: React.FC<AuthProviderProps> = ({
     },[useFetchApi]);
 
     const signOut = () => {
-        storage.clearToken();
+        storageFetch.clearToken();
         storageInfoUser.clearUserInfo();  
     };
 
