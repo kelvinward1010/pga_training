@@ -30,10 +30,11 @@ export const registerUser = createAsyncThunk<AuthResponse, RegisterValues, { rej
                 method: 'POST',
                 url: `${OTHER_API_URL}users/create`,
                 data: userData,
+                headers: {
+                    'Content-Type': 'application/json',
+                },
             };
-
             const response = await apiClient(config);
-
             const data: AuthResponse = await response.data;
             return data;
         } catch (error: any) {
@@ -46,18 +47,19 @@ export const loginUser = createAsyncThunk<AuthResponse, LoginValues, { rejectVal
     'authentication/login',
     async (credentials, { rejectWithValue }) => {
         try {
-            const response = await fetch(`${BASE_URL}/authentication/login`, {
+
+            const config: AxiosRequestConfig = {
                 method: 'POST',
+                url: `${BASE_URL}/authentication/login`,
+                data: credentials,
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify(credentials),
-            });
-            const data: AuthResponse = await response.json();
+            };
+
+            const response = await apiClient(config);
+            const data: AuthResponse = await response.data;
             storageFetch.setToken(data?.user_cookie)
-            if (!response.ok) {
-                throw new Error(data.user.name || 'Unable to log in');
-            }
             return data;
         } catch (error: any) {
             return rejectWithValue(error.message as string);

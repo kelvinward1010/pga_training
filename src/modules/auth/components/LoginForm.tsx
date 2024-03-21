@@ -62,10 +62,10 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     )
                 })
                 navigate(homeUrl)
-            }else{
+            }else if(res.payload?.success === false){
                 notification.error({
                     message: `Could not sign in. Please try again!`,
-                    description: ` ${res.errors.email}`,
+                    description: ` ${res.payload.errors.email}`,
                     icon: (
                       <WarningOutlined className='warning' />
                     )

@@ -1,9 +1,7 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useState } from "react";
 import { IGenderParams, ILocationParams, ISignUpParams } from "../types"
 import { GENDER } from "../data";
 import { validSignup, validateSignup } from "../pages/signup/utils";
-import { useFetchApi } from "../../../lib/api";
-import { URL_LOCATION } from "../../../contants/config";
 import { useDispatch } from "react-redux";
 import { registerUser, RegisterValues } from "../../../redux/actions/authActions";
 import { AppDispatch } from "../../../redux/store";
@@ -139,6 +137,17 @@ const SignUpForm: React.FC<Props> = ({
             }
         })
     }
+
+    // useEffect(() => {
+    //     fetch('http://api.training.div3.pgtest.co/api/v1/location')
+    //       .then((response) => response.json())
+    //       .then((data) => {
+    //         console.log(data);
+    //       })
+    //       .catch((error) => {
+    //         console.error('Error fetching data:', error);
+    //       });
+    // }, []);
 
     return (
         <>
