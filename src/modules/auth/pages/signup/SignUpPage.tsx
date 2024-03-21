@@ -4,12 +4,14 @@ import { useCallback, useEffect, useState } from "react";
 import { LOCATIONS } from "../../data";
 import { ILocationParams, ISignUpParams } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL } from "../../../../contants/config";
+import { BASE_URL, OTHER_API_URL } from "../../../../contants/config";
 import { useFetchApi } from "../../../../lib/api";
 import { notification } from "antd";
 import storage from "../../../../utils/storage";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
-import { homeUrl, signinUrl } from "../../../../routers/urls";
+import { homeUrl, signinUrl, signupUrl } from "../../../../routers/urls";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../../redux/store";
 
 export function SignUpPage() {
 
@@ -17,6 +19,7 @@ export function SignUpPage() {
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState('');
     const [locations, setLocations] = useState<ILocationParams[]>([]);
+    const isAuthenticated = useSelector((state: RootState) => state.auth.user);
 
     const getLocation = useCallback(async () => {
         setLocations(LOCATIONS)
@@ -29,7 +32,7 @@ export function SignUpPage() {
 
     const onSignUp = useCallback(async(values: ISignUpParams) => {
         const config = {
-            apiUrl: `${BASE_URL}users/create`,
+            apiUrl: `${OTHER_API_URL}users/create`,
             method: 'POST',
             data: {
                 name: values.name,
@@ -59,9 +62,17 @@ export function SignUpPage() {
         })
     },[useFetchApi])
 
+    // useEffect(() => {
+    //     if (storage.getToken()) navigate(homeUrl)
+    // }, [navigate]);
+
     useEffect(() => {
-        if (storage.getToken()) navigate(homeUrl)
-    }, [navigate]);
+        if(isAuthenticated){
+            navigate(homeUrl)
+        }else{
+            navigate(signupUrl)
+        }
+    },[isAuthenticated])
 
     return (
         <div style={{

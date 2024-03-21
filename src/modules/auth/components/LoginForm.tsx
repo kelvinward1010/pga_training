@@ -4,6 +4,10 @@ import { validLogin, validateLogin } from "../pages/login/utils";
 import { AppDispatch } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/actions/authActions";
+import { notification } from "antd";
+import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
+import { useNavigate } from "react-router-dom";
+import { homeUrl } from "../../../routers/urls";
 
 interface LoginFormProps {
     onLogin: (values: LoginParams) => void;
@@ -24,8 +28,8 @@ const LoginForm: React.FC<LoginFormProps> = ({
         rememberMe: false
     })
 
+    const navigate = useNavigate();
     const [validate, setValidate] = useState<LoginValidation>();
-    const [done, setDone] = useState(true);
     const dispatch: AppDispatch = useDispatch();
 
     
@@ -48,8 +52,26 @@ const LoginForm: React.FC<LoginFormProps> = ({
         onLogin(formValues);
     },[formValues, onLogin]);
 
-    const testLogin = (values: LoginValidation) => {
-        dispatch(loginUser(values))
+    const handleLogin = (values: LoginValidation) => {
+        dispatch(loginUser(values)).then((res: any) => {
+            if(res.payload?.success === true){
+                notification.success({
+                    message: "You have been sign in successfully!",
+                    icon: (
+                        <CheckCircleOutlined className="done" />
+                    )
+                })
+                navigate(homeUrl)
+            }else{
+                notification.error({
+                    message: `Could not sign in. Please try again!`,
+                    description: ` ${res.errors.email}`,
+                    icon: (
+                      <WarningOutlined className='warning' />
+                    )
+                })
+            }
+        })
     }
     
     return (
@@ -64,7 +86,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 onSubmit={(e) => {
                     e.preventDefault();
                     // onSubmit();
-                    testLogin(formValues);
+                    handleLogin(formValues);
                 }}
                 className="row g-3 needs-validation"
             >

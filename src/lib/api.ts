@@ -23,7 +23,7 @@ apiClient.interceptors.request.use(
 export async function useFetchApi<T>(
   apiUrl: string,
   method: 'GET' | 'POST' | 'PUT' | 'DELETE',
-  data?: any
+  data?: any,
 ): Promise<T> {
   try {
     const config: AxiosRequestConfig = {

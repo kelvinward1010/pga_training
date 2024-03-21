@@ -1,7 +1,16 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IGenderParams, ILocationParams, ISignUpParams } from "../types"
 import { GENDER } from "../data";
 import { validSignup, validateSignup } from "../pages/signup/utils";
+import { useFetchApi } from "../../../lib/api";
+import { URL_LOCATION } from "../../../contants/config";
+import { useDispatch } from "react-redux";
+import { registerUser, RegisterValues } from "../../../redux/actions/authActions";
+import { AppDispatch } from "../../../redux/store";
+import { useNavigate } from "react-router-dom";
+import { signinUrl } from "../../../routers/urls";
+import { notification } from "antd";
+import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 
 
 interface Props {
@@ -30,6 +39,8 @@ const SignUpForm: React.FC<Props> = ({
 
     const [validate, setValidate] = useState<ISignUpParams>();
     const [done, setDone] = useState(true);
+    const dispatch: AppDispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleChange = (e: any) => {
         setFormValues({ ...formValues, [e.target.name]: e.target.value });
@@ -37,19 +48,6 @@ const SignUpForm: React.FC<Props> = ({
             setDone(false);
         }
     };
-
-    const onSubmit = useCallback(async () => {
-
-        const validate = validateSignup(formValues)
-        
-        setValidate(validate);
-
-        if(!validSignup(validate)){
-            return;
-        }
-
-        onSignUp(formValues)
-    },[formValues, onSignUp])
 
     const renderGender = () => {
         const arrGender: JSX.Element[] = [
@@ -102,6 +100,46 @@ const SignUpForm: React.FC<Props> = ({
         return arrState;
     }
 
+    const onSubmit = useCallback(async () => {
+
+        const validate = validateSignup(formValues)
+        
+        setValidate(validate);
+
+        if(!validSignup(validate)){
+            return;
+        }
+
+        onSignUp(formValues)
+    },[formValues, onSignUp])
+
+    const handleSignUp = () => {
+        const data: RegisterValues = {
+            name: formValues.name,
+            email: formValues.email,
+            password: formValues.password,
+        }
+        dispatch(registerUser(data)).then((res) => {
+            if(res.meta.requestStatus == 'fulfilled') {
+                notification.success({
+                    message: "You have been sign up successfully!",
+                    icon: (
+                        <CheckCircleOutlined className="done" />
+                    )
+                })
+                navigate(signinUrl);
+            }else{
+                notification.error({
+                    message: `Could not sign up. Please try again!`,
+                    description: ` ${res.payload}`,
+                    icon: (
+                      <WarningOutlined className='warning' />
+                    )
+                })
+            }
+        })
+    }
+
     return (
         <>
             {errorMessage != '' ? (
@@ -118,7 +156,8 @@ const SignUpForm: React.FC<Props> = ({
                 noValidate
                 onSubmit={(e) => {
                     e.preventDefault();
-                    onSubmit();
+                    // onSubmit();
+                    handleSignUp();
                 }}
                 className="row g-3 needs-validation"
             >
