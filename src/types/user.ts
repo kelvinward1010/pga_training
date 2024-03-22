@@ -6,3 +6,8 @@ export interface User{
     region: string;
     state: string;
 }
+
+export interface ItemType{
+    id: string;
+    value: string;
+}

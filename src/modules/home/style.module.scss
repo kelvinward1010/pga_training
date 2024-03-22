@@ -1,8 +1,30 @@
 .container{
-    height: 100vh;
-    width: 100vw;
+    height: calc(100vh - 60px);
+    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
+
+    .center{
+        width: 70%;
+        height: 80%;
+        border: 1px solid teal;
+        padding: 10px 0;
+
+        .action{
+            width: 80%;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0 auto;
+        }
+
+        .listitem{
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 50px;
+        }
+    }
 }

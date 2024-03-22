@@ -2,6 +2,7 @@ import { AppShell, Burger } from "@mantine/core"
 import Header from "../header/Header"
 import { useDisclosure } from "@mantine/hooks";
 import { Outlet } from "react-router-dom";
+import NavLinkConfig from "../navlink/NavLinkConfig";
 
 
 function Layout() {
@@ -30,7 +31,9 @@ function Layout() {
                 </div>
             </AppShell.Header>
 
-            <AppShell.Navbar p="md">Navbar</AppShell.Navbar>
+            <AppShell.Navbar p="md">
+                <NavLinkConfig />
+            </AppShell.Navbar>
 
             <AppShell.Main>
                 <Outlet />

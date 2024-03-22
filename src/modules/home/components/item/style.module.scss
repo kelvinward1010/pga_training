@@ -1,4 +1,39 @@
 .container{
     height: 70px;
-    width: 200px;
+    width: 80%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid teal;
+    margin: 10px;
+
+    .info{
+        width: 90%;
+        height: 100%;
+        border-left: 1px solid teal;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        .editInfo{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            .actions{
+                display: flex;
+                margin-left: 10px;
+            }
+        }
+
+        .name{
+            cursor: pointer;
+        }
+
+        .info_deltail{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    }
 }
