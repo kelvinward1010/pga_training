@@ -3,6 +3,7 @@ import { homeUrl, signinUrl, signupUrl } from "./urls";
 import { Home, LoginPage, SignUpPage } from "../modules";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
+import Layout from "../components/layout/Layout";
 
 interface RouteProps {
     children: React.ReactNode
@@ -16,12 +17,18 @@ const ProtectedRoute: React.FC<RouteProps> = ({ children }) => {
 
 export const routerConfig = createBrowserRouter([
     {
-        path: homeUrl,
+        path: '/',
         element: (
             <ProtectedRoute>
-                <Home />
+                <Layout />
             </ProtectedRoute>
         ),
+        children: [
+            {
+                path: homeUrl,
+                element: <Home />
+            }
+        ]
     },
     {
         path: signupUrl,

@@ -1,0 +1,14 @@
+.container{
+    display: flex;
+    height: 60px;
+    justify-content: space-between;
+    margin: 0 10px;
+    align-items: center;
+
+    .profile{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+}
