@@ -1,10 +1,9 @@
 import styles from "./style.module.scss";
 import SignUpForm from '../../components/SignUpForm'
 import { useCallback, useEffect, useState } from "react";
-import { LOCATIONS } from "../../data";
 import { ILocationParams, ISignUpParams } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
-import { BASE_URL, OTHER_API_URL } from "../../../../contants/config";
+import { OTHER_API_URL } from "../../../../contants/config";
 import { useFetchApi } from "../../../../lib/api";
 import { notification } from "antd";
 import storage from "../../../../utils/storage";
@@ -12,6 +11,7 @@ import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 import { homeUrl, signinUrl, signupUrl } from "../../../../routers/urls";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
+import { getLocations } from "../../../../apis/location";
 
 export function SignUpPage() {
 
@@ -20,15 +20,6 @@ export function SignUpPage() {
     const [errorMessage, setErrorMessage] = useState('');
     const [locations, setLocations] = useState<ILocationParams[]>([]);
     const isAuthenticated = useSelector((state: RootState) => state.auth.user);
-
-    const getLocation = useCallback(async () => {
-        setLocations(LOCATIONS)
-        return;
-    },[LOCATIONS]);
-
-    useEffect(() => {
-        getLocation();
-    },[getLocation])
 
     const onSignUp = useCallback(async(values: ISignUpParams) => {
         const config = {
@@ -65,6 +56,12 @@ export function SignUpPage() {
     // useEffect(() => {
     //     if (storage.getToken()) navigate(homeUrl)
     // }, [navigate]);
+
+    useEffect(() => {
+        getLocations().then((res: any) => {
+            setLocations(res.data)
+        })
+    }, [getLocations]);
 
     useEffect(() => {
         if(isAuthenticated){

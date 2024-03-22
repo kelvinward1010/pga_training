@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../../types/user";
-import { BASE_URL, OTHER_API_URL } from "../../contants/config";
+import { BASE_URL, OTHER_API_URL, URL_REGISTER } from "../../contants/config";
 import storageFetch from "../../utils/storage";
 import { AxiosRequestConfig } from "axios";
 import { apiClient } from "../../lib/api";
@@ -19,6 +19,10 @@ export interface RegisterValues {
     name: string,
     email: string,
     password: string,
+    repeatPassword: string,
+    gender: string,
+    region: number,
+    state: number,
 }
 
 export const registerUser = createAsyncThunk<AuthResponse, RegisterValues, { rejectValue: string }>(
@@ -28,9 +32,10 @@ export const registerUser = createAsyncThunk<AuthResponse, RegisterValues, { rej
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: `${OTHER_API_URL}users/create`,
+                url: `${URL_REGISTER}`,
                 data: userData,
                 headers: {
+
                     'Content-Type': 'application/json',
                 },
             };

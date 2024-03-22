@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { IGenderParams, ILocationParams, ISignUpParams } from "../types"
 import { GENDER } from "../data";
 import { validSignup, validateSignup } from "../pages/signup/utils";
@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { signinUrl } from "../../../routers/urls";
 import { notification } from "antd";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
+import { getStatesInLocation } from "../../../apis/location";
 
 
 interface Props {
@@ -36,6 +37,7 @@ const SignUpForm: React.FC<Props> = ({
     })
 
     const [validate, setValidate] = useState<ISignUpParams>();
+    const [state, setState] = useState<ILocationParams[]>([]);
     const [done, setDone] = useState(true);
     const dispatch: AppDispatch = useDispatch();
     const navigate = useNavigate();
@@ -46,6 +48,13 @@ const SignUpForm: React.FC<Props> = ({
             setDone(false);
         }
     };
+
+    const handleChangeLocations = (e: any) => {
+        setFormValues({ ...formValues, [e.target.name]: e.target.value });
+        if(formValues.email != '' && formValues.password != ''){
+            setDone(false);
+        }
+    }
 
     const renderGender = () => {
         const arrGender: JSX.Element[] = [
@@ -88,7 +97,7 @@ const SignUpForm: React.FC<Props> = ({
                 -- Select an option --
             </option>,
         ]
-        locations.map((location: ILocationParams, index: number) =>{
+        state.map((location: ILocationParams, index: number) =>{
             arrState.push(
                 <option value={location.id} key={index}>
                     {location.name}
@@ -116,6 +125,10 @@ const SignUpForm: React.FC<Props> = ({
             name: formValues.name,
             email: formValues.email,
             password: formValues.password,
+            repeatPassword: formValues.repeatPassword,
+            gender: formValues.gender,
+            region: Number(formValues.region),
+            state: Number(formValues.state),
         }
         dispatch(registerUser(data)).then((res) => {
             if(res.meta.requestStatus == 'fulfilled') {
@@ -126,6 +139,7 @@ const SignUpForm: React.FC<Props> = ({
                     )
                 })
                 navigate(signinUrl);
+                console.log(res)
             }else{
                 notification.error({
                     message: `Could not sign up. Please try again!`,
@@ -138,16 +152,13 @@ const SignUpForm: React.FC<Props> = ({
         })
     }
 
-    // useEffect(() => {
-    //     fetch('http://api.training.div3.pgtest.co/api/v1/location')
-    //       .then((response) => response.json())
-    //       .then((data) => {
-    //         console.log(data);
-    //       })
-    //       .catch((error) => {
-    //         console.error('Error fetching data:', error);
-    //       });
-    // }, []);
+    useEffect(() => {
+        if(formValues.region){
+            getStatesInLocation(formValues.region).then((res: any) => {
+                setState(res.data)
+            })
+        }
+    },[formValues.region])
 
     return (
         <>
@@ -279,7 +290,7 @@ const SignUpForm: React.FC<Props> = ({
                         name="region" 
                         id="selectRegion"
                         value={formValues.region}
-                        onChange={handleChange}
+                        onChange={handleChangeLocations}
                     >
                         {renderRegion()}
                     </select>
