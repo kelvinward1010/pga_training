@@ -146,7 +146,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 </div>
 
                 <div className="row justify-content-md-center" style={{ margin: '16px 0'}}>
-                    <div className="col-md-auto">
+                    <div className="col-auto">
                         <button
                             className="btn btn-primary"
                             type="submit"
