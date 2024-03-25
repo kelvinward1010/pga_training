@@ -1,14 +1,11 @@
 import { useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { RootState } from "../../redux/store";
-import { Avatar, Button, Col, Flex, Form, Input, Modal, notification, Row, Select, Typography } from "antd";
+import { Avatar, Button, Col, Form, Input, Modal, notification, Row, Select } from "antd";
 import { UploadOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons";
 import { ChangeEvent, useRef, useState } from "react";
-import ReactCrop, { centerCrop, convertToPixelCrop, Crop, makeAspectCrop } from "react-image-crop";
+import ReactCrop, { centerCrop, convertToPixelCrop, makeAspectCrop } from "react-image-crop";
 import setCanvasPreview from "./setCanvasPreview";
-
-
-const { Text } = Typography;
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
