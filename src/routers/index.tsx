@@ -1,6 +1,6 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import { homeUrl, signinUrl, signupUrl } from "./urls";
-import { Home, LoginPage, SignUpPage } from "../modules";
+import { detailUrl, homeUrl, productsUrl, profileUrl, signinUrl, signupUrl } from "./urls";
+import { Detail, Home, LoginPage, Products, Profile, SignUpPage } from "../modules";
 import { useSelector } from "react-redux";
 import { RootState } from "../redux/store";
 import Layout from "../components/layout/Layout";
@@ -27,7 +27,19 @@ export const routerConfig = createBrowserRouter([
             {
                 path: homeUrl,
                 element: <Home />
-            }
+            },
+            {
+                path: profileUrl,
+                element: <Profile />
+            },
+            {
+                path: detailUrl,
+                element: <Detail />
+            },
+            {
+                path: productsUrl,
+                element: <Products />
+            },
         ]
     },
     {

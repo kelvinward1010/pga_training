@@ -10,7 +10,7 @@ export const apiClient = axios.create({
 
 apiClient.interceptors.request.use(
   function (config) {
-    config.headers.Authorization = "Bearer" + storageFetch.getToken();
+    config.headers.Authorization = storageFetch.getToken();
     return Promise.resolve(config);
   },
   function (error) {
@@ -33,6 +33,7 @@ export async function useFetchApi<T>(
     };
 
     const response = await apiClient(config);
+    console.log(response)
     return response.data
   } catch (error) {
     const axiosError = error as AxiosError;
@@ -49,7 +50,6 @@ export async function useFetchApi<T>(
       }
     } else {
       console.error('Network error:', axiosError.message);
-      return Promise.reject(axiosError.message);
     }
     return Promise.reject(axiosError.message);
   }

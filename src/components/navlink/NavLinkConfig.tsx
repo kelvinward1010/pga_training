@@ -1,5 +1,5 @@
 import { Box, NavLink } from '@mantine/core';
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const data = [
     {
@@ -7,8 +7,8 @@ const data = [
         link: '/home',
     },
     {
-        label: 'Table',
-        link: '/table',
+        label: 'Products',
+        link: '/products',
     },
 ];
 
@@ -21,7 +21,6 @@ function NavLinkConfig() {
           active={index === active}
           label={item.label}
           onClick={() => setActive(index)}
-    
         />
     ));
     return <Box w={220}>{items}</Box>;

@@ -5,14 +5,14 @@
 const storageFetch = {
     getToken: () => {
         return JSON.parse(
-            window.localStorage.getItem(`user_cookie`) as string,
+            window.localStorage.getItem(`token`) as string,
         );
     },
     setToken: (token: string) => {
-        window.localStorage.setItem(`user_cookie`, JSON.stringify(token));
+        window.localStorage.setItem(`token`, JSON.stringify(token));
     },
     clearToken: () => {
-        window.localStorage.removeItem(`user_cookie`);
+        window.localStorage.removeItem(`token`);
     },
 };
 

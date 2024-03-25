@@ -107,19 +107,6 @@ const SignUpForm: React.FC<Props> = ({
         return arrState;
     }
 
-    const onSubmit = useCallback(async () => {
-
-        const validate = validateSignup(formValues)
-        
-        setValidate(validate);
-
-        if(!validSignup(validate)){
-            return;
-        }
-
-        onSignUp(formValues)
-    },[formValues, onSignUp])
-
     const handleSignUp = () => {
         const data: RegisterValues = {
             name: formValues.name,
@@ -139,7 +126,6 @@ const SignUpForm: React.FC<Props> = ({
                     )
                 })
                 navigate(signinUrl);
-                console.log(res)
             }else{
                 notification.error({
                     message: `Could not sign up. Please try again!`,
@@ -151,11 +137,11 @@ const SignUpForm: React.FC<Props> = ({
             }
         })
     }
-
     useEffect(() => {
         if(formValues.region){
             getStatesInLocation(formValues.region).then((res: any) => {
                 setState(res.data)
+                console.log(res)
             })
         }
     },[formValues.region])

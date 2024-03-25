@@ -33,7 +33,7 @@ export const authSlice = createSlice({
                 registerUser.fulfilled,
                 (state, action: PayloadAction<AuthResponse>) => {
                     state.isLoading = false;
-                    state.user = action.payload.user;
+                    state.user = action.payload.data;
                 }
             )
             .addCase(
@@ -50,7 +50,7 @@ export const authSlice = createSlice({
                 loginUser.fulfilled,
                 (state, action: PayloadAction<AuthResponse>) => {
                     state.isLoading = false;
-                    state.user = action.payload.user;
+                    state.user = action.payload.data;
                 }
             )
             .addCase(loginUser.rejected, (state, action: PayloadAction<any>) => {

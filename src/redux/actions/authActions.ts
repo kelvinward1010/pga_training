@@ -1,13 +1,15 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { User } from "../../types/user";
-import { BASE_URL, OTHER_API_URL, URL_REGISTER } from "../../contants/config";
+import { BASE_URL } from "../../contants/config";
 import storageFetch from "../../utils/storage";
 import { AxiosRequestConfig } from "axios";
 import { apiClient } from "../../lib/api";
 
 export interface AuthResponse {
-    user: User;
-    user_cookie: string;
+    code: any;
+    data: User;
+    error: boolean;
+    message: string;
 }
 
 interface LoginValues {
@@ -32,10 +34,9 @@ export const registerUser = createAsyncThunk<AuthResponse, RegisterValues, { rej
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: `${URL_REGISTER}`,
+                url: `${BASE_URL}/auth/register`,
                 data: userData,
                 headers: {
-
                     'Content-Type': 'application/json',
                 },
             };
@@ -55,7 +56,7 @@ export const loginUser = createAsyncThunk<AuthResponse, LoginValues, { rejectVal
 
             const config: AxiosRequestConfig = {
                 method: 'POST',
-                url: `${BASE_URL}/authentication/login`,
+                url: `${BASE_URL}/auth/login`,
                 data: credentials,
                 headers: {
                     'Content-Type': 'application/json',
@@ -64,7 +65,7 @@ export const loginUser = createAsyncThunk<AuthResponse, LoginValues, { rejectVal
 
             const response = await apiClient(config);
             const data: AuthResponse = await response.data;
-            storageFetch.setToken(data?.user_cookie)
+            storageFetch.setToken(data?.data?.token)
             return data;
         } catch (error: any) {
             return rejectWithValue(error.message as string);

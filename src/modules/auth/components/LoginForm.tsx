@@ -52,9 +52,13 @@ const LoginForm: React.FC<LoginFormProps> = ({
         onLogin(formValues);
     },[formValues, onLogin]);
 
-    const handleLogin = (values: LoginValidation) => {
-        dispatch(loginUser(values)).then((res: any) => {
-            if(res.payload?.success === true){
+    const handleLogin = () => {
+        const configdata = {
+            email: formValues.email,
+            password: formValues.password,
+        }
+        dispatch(loginUser(configdata)).then((res: any) => {
+            if(res.payload?.error === false){
                 notification.success({
                     message: "You have been sign in successfully!",
                     icon: (
@@ -62,7 +66,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                     )
                 })
                 navigate(homeUrl)
-            }else if(res.payload?.success === false){
+            }else if(res.payload?.error === true){
                 notification.error({
                     message: `Could not sign in. Please try again!`,
                     description: ` ${res.payload.errors.email}`,
@@ -86,7 +90,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
                 onSubmit={(e) => {
                     e.preventDefault();
                     // onSubmit();
-                    handleLogin(formValues);
+                    handleLogin();
                 }}
                 className="row g-3 needs-validation"
             >
