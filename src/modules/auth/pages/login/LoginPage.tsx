@@ -1,4 +1,4 @@
-import { useCallback, useContext, useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import LoginForm from "../../components/LoginForm";
 import styles from "./style.module.scss";
 import { LoginParams } from "../../types";
@@ -8,8 +8,6 @@ import { BASE_URL } from "../../../../contants/config";
 import { notification } from "antd";
 import { CheckCircleOutlined, WarningOutlined } from "@ant-design/icons";
 import { homeUrl, signinUrl, signupUrl } from "../../../../routers/urls";
-import { AuthContext } from "../../../../context/AuthContext";
-import storageInfoUser from "../../../../utils/userStorage";
 import storageFetch from "../../../../utils/storage";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
@@ -19,7 +17,6 @@ export function LoginPage() {
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [errorMessage, setErrorMessage] = useState<any>();
-    const auth = useContext(AuthContext);
     const isAuthenticated = useSelector((state: RootState) => state.auth.user);
 
     const onLogin = useCallback(async (values: LoginParams) => {
@@ -41,7 +38,6 @@ export function LoginPage() {
                     )
                 })
                 storageFetch.setToken(res.user_cookie)
-                storageInfoUser.setUserInfo({email: values.email});
                 setLoading(false)
                 navigate(homeUrl)
             }else{
@@ -66,7 +62,7 @@ export function LoginPage() {
             setLoading(false)
             setErrorMessage(error)
         })
-    },[navigate, auth])
+    },[navigate])
 
     // useEffect(() => {
     //     if (storageFetch.getToken()) navigate(homeUrl)

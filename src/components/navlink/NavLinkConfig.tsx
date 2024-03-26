@@ -1,5 +1,6 @@
 import { Box, NavLink } from '@mantine/core';
 import { useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 const data = [
     {
@@ -14,13 +15,16 @@ const data = [
 
 function NavLinkConfig() {
     const [active, setActive] = useState(0);
+    const navigate = useNavigate();
     const items = data.map((item, index) => (
         <NavLink
-          href={item.link as string}
           key={item.label}
           active={index === active}
           label={item.label}
-          onClick={() => setActive(index)}
+          onClick={() => {
+            navigate(item.link)
+            setActive(index)
+          }}
         />
     ));
     return <Box w={220}>{items}</Box>;

@@ -1,4 +1,4 @@
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { RootState } from "../../redux/store";
 import { Avatar, Button, Col, Form, Input, Modal, notification, Row, Select } from "antd";
@@ -6,6 +6,10 @@ import { UploadOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons
 import { ChangeEvent, useRef, useState } from "react";
 import ReactCrop, { centerCrop, convertToPixelCrop, makeAspectCrop } from "react-image-crop";
 import setCanvasPreview from "./setCanvasPreview";
+import { updateUser } from "./api/updateUser";
+import { URL_AVATAR } from "../../contants/config";
+import { getUser } from "./api/getUser";
+import { update } from "../../redux/slices/authSlice";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -102,6 +106,7 @@ export function Profile() {
     const hiddenFileInput = useRef<HTMLInputElement>(null);
     const [crop, setCrop] = useState<any>();
     const [error, setError] = useState('');
+    const dispatch = useDispatch();
     const user: any = useSelector((state: RootState) => state.auth.user);
 
     const [fields, setFields] = useState<FieldData[]>([
@@ -127,13 +132,30 @@ export function Profile() {
         },
     ]);
 
-
-    const onFinish = (values: any) => {
-        const data = {
-            name: values.name,
-            email: values?.email,
+    // Hàm chuyển đổi Data URL sang Blob
+    function dataURLtoBlob(dataURL: string): Blob {
+        const byteString = atob(dataURL.split(',')[1]);
+        const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
+        const ab = new ArrayBuffer(byteString.length);
+        const ia = new Uint8Array(ab);
+        for (let i = 0; i < byteString.length; i++) {
+        ia[i] = byteString.charCodeAt(i);
         }
-        console.log(data)
+        return new Blob([ab], { type: mimeString });
+    }
+
+
+    const onFinish = () => {
+        const dataUrl = previewCanvasRef.current.toDataURL();
+        const blob: Blob = dataURLtoBlob(dataUrl);
+        const formData = new FormData();
+        formData.append('file', blob, "avatar.png");
+        updateUser(formData);
+        
+        getUser().then((user) => {
+            update(user)
+        })
+        
     }
 
     const onFinishFailed = (errorInfo: any) => {
@@ -224,7 +246,8 @@ export function Profile() {
                                         imgRef?.current.width,
                                         imgRef?.current.height
                                     )
-                                )
+                                );
+                                setIsOpenUpload(false);
                             }}
                         >
                             Crop Image
@@ -235,6 +258,7 @@ export function Profile() {
                             ref={previewCanvasRef}
                             className="mt-4"
                             style={{
+                                display: "none",
                                 border: "1px solid black",
                                 objectFit: "contain",
                                 width: 150,
@@ -248,7 +272,7 @@ export function Profile() {
             <div className={styles.container}>
                 <Row justify={'space-between'} style={{width: "100%"}} wrap>
                     <Col span={24} xs={5} push={2} className={styles.avatarmain}>
-                        <Avatar size={200} style={{borderColor: "teal"}} icon={<UserOutlined />} src={user?.avatar || image} />
+                        <Avatar size={200} style={{borderColor: "teal"}} icon={<UserOutlined />} src={`${URL_AVATAR}/${user?.avatar}` || image} />
                         <div onClick={() => setIsOpenUpload(true)} className={styles.upload}>
                             <Button className={styles.btn_upload_image}>Upload Avatar</Button>
                         </div>
@@ -260,7 +284,7 @@ export function Profile() {
                                 setFields(newFields);
                             }}
                             onFailure={(error: any) => onFinishFailed(error)}
-                            onSubmit={(values: any) => onFinish(values)}
+                            onSubmit={() => onFinish()}
                         />
                     </Col>
                 </Row>

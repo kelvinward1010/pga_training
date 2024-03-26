@@ -8,7 +8,7 @@ export const useGetApi = (URL: string) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
-    const getUser = async (): Promise<any> => {
+    const getAnything = async (): Promise<any> => {
         try {
             await apiClient.get(URL).then((response: any) => {
                 setData(response?.data);
@@ -21,8 +21,8 @@ export const useGetApi = (URL: string) => {
     }
 
     useEffect(() => {
-        getUser();
-    },[])
+        getAnything();
+    },[URL])
 
     return {data, loading, error}
 }

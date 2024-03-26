@@ -2,7 +2,7 @@ import styles from "./style.module.scss";
 import { Avatar, Col, Flex, Row, Typography } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import { useGetApi } from "../../hooks/get_api";
-import { BASE_URL } from "../../contants/config";
+import { BASE_URL, URL_AVATAR } from "../../contants/config";
 
 
 const { Text } = Typography;
@@ -11,6 +11,7 @@ export function Detail() {
     
     const {data, loading, error} = useGetApi(`${BASE_URL}/user`);
     const user = data?.data;
+    
     if(loading){
         return (
             <>Loading...</>
@@ -27,7 +28,7 @@ export function Detail() {
         <div className={styles.container}>
             <Row justify={'space-between'} wrap>
                 <Col span={24} xs={7}>
-                    <Avatar size={200} icon={<UserOutlined />} src={user?.avatar} />
+                    <Avatar size={200} icon={<UserOutlined />} src={`${URL_AVATAR}/${user?.avatar}`} />
                 </Col>
                 <Col span={24} xs={17}>
                     <Flex 
