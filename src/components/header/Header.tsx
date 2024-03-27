@@ -10,6 +10,7 @@ import { homeUrl, profileUrl, signinUrl } from '../../routers/urls';
 import ButtonConfig from '../button/ButtonConfig';
 import { Avatar, Dropdown } from 'antd';
 import { UserOutlined } from '@ant-design/icons';
+import { URL_AVATAR } from '../../contants/config';
 
 function Header() {
     const navigate = useNavigate();
@@ -68,7 +69,7 @@ function Header() {
                         trigger={['click']}
                     >
                         <div className={styles.profile}>
-                            <Avatar className={styles.avatar} src={user?.image ?? null} icon={<UserOutlined />} />
+                            <Avatar className={styles.avatar} src={`${URL_AVATAR}/${user?.avatar}` ?? null} icon={<UserOutlined />} />
                             <Text c="teal.4" style={{marginLeft:"10px"}}>{user?.name}</Text>
                         </div>
                     </Dropdown>

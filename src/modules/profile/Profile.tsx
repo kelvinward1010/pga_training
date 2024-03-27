@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from "react-redux";
 import styles from "./style.module.scss";
 import { RootState } from "../../redux/store";
 import { Avatar, Button, Col, Form, Input, Modal, notification, Row, Select } from "antd";
-import { UploadOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons";
+import { CheckCircleOutlined, UploadOutlined, UserOutlined, WarningOutlined } from "@ant-design/icons";
 import { ChangeEvent, useRef, useState } from "react";
 import ReactCrop, { centerCrop, convertToPixelCrop, makeAspectCrop } from "react-image-crop";
 import setCanvasPreview from "./setCanvasPreview";
@@ -10,6 +10,7 @@ import { updateUser } from "./api/updateUser";
 import { URL_AVATAR } from "../../contants/config";
 import { getUser } from "./api/getUser";
 import { update } from "../../redux/slices/authSlice";
+import { User } from "../../types/user";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -88,12 +89,32 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
             />
         </Form.Item>
 
-        <Form.Item wrapperCol={{ offset: 5, span: 14 }}>
+        <Form.Item
+            name="region"
+            label="Region"
+            rules={[{ required: true, message: 'Region is required!' }]}
+        >
+            <Select
+                style={{ width: "100%" }}
+            />
+        </Form.Item>
+
+        <Form.Item
+            name="state"
+            label="State"
+            rules={[{ required: true, message: 'State is required!' }]}
+        >
+            <Select
+                style={{ width: "100%" }}
+            />
+        </Form.Item>
+
+        {/* <Form.Item wrapperCol={{ offset: 5, span: 14 }}>
             <Button className={styles.button} htmlType="submit">
                 Update Profile
             </Button>
             <Button className={styles.button_reset} htmlType="reset">Reset</Button>
-        </Form.Item>
+        </Form.Item> */}
     </Form>
 );
 
@@ -107,6 +128,7 @@ export function Profile() {
     const [crop, setCrop] = useState<any>();
     const [error, setError] = useState('');
     const dispatch = useDispatch();
+    const [loading, setLoading] = useState(false);
     const user: any = useSelector((state: RootState) => state.auth.user);
 
     const [fields, setFields] = useState<FieldData[]>([
@@ -145,18 +167,7 @@ export function Profile() {
     }
 
 
-    const onFinish = () => {
-        const dataUrl = previewCanvasRef.current.toDataURL();
-        const blob: Blob = dataURLtoBlob(dataUrl);
-        const formData = new FormData();
-        formData.append('file', blob, "avatar.png");
-        updateUser(formData);
-        
-        getUser().then((user) => {
-            update(user)
-        })
-        
-    }
+    const onFinish = () => {}
 
     const onFinishFailed = (errorInfo: any) => {
         
@@ -205,6 +216,28 @@ export function Profile() {
         setCrop(centeredCrop);
     }
 
+    const handleUploadAvatar = () => {
+        setLoading(true);
+        const dataUrl = previewCanvasRef.current.toDataURL();
+        const blob: Blob = dataURLtoBlob(dataUrl);
+        const formData = new FormData();
+        formData.append('file', blob, "avatar.png");
+        updateUser(formData).then(() => {
+            getUser().then((user: User) => {
+                dispatch(update(user));
+            })
+        }).then(() => {
+            notification.success({
+                message: `Update avatar successfully!`,
+                icon: (
+                    <CheckCircleOutlined className="done" />
+                )
+            })
+            setIsOpenUpload(false);
+            setLoading(false);
+        })
+} 
+
     return (
         <>
             <Modal
@@ -247,10 +280,11 @@ export function Profile() {
                                         imgRef?.current.height
                                     )
                                 );
-                                setIsOpenUpload(false);
+                                handleUploadAvatar();
                             }}
+                            loading={loading}
                         >
-                            Crop Image
+                            Update Avatar
                         </Button>
 
                         {crop && (
