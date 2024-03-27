@@ -318,7 +318,7 @@ export function Profile() {
                             <Button className={styles.btn_upload_image}>Upload Avatar</Button>
                         </div>
                     </Col>
-                    <Col span={24} xs={19}>
+                    <Col span={24} xs={19} className={styles.infoafter}>
                         <CustomizedForm
                             fields={fields}
                             onChange={(newFields) => {

@@ -121,13 +121,28 @@ function TableProduct() {
         })
     }
 
+    const styleStattus = (text: string) => {
+        switch (text) {
+            case "PENDING":
+                return <Text className='line-clamp-1'>{text}</Text>
+            case "FULFILLED":
+                return <Text className='line-clamp-1' style={{color: "green"}}>{text}</Text>
+            case "RECEIVED":
+                return <Text className='line-clamp-1' style={{color: "blue"}}>{text}</Text>
+            case "PROCESSING":
+                return <Text className='line-clamp-1' style={{color: "orange"}}>{text}</Text>
+            default:
+                return <Text className='line-clamp-1'>{text}</Text>
+        }
+    }
+
     const columns: TableColumnType<any>[] = [
         {
             title: 'Status',
             dataIndex: 'status',
             key: 'status',
             width: '15%',
-            render: (text: any) => <Text className='line-clamp-1'>{text}</Text>,
+            render: (text: any) => styleStattus(text),
         },
         {
             title: 'Date',

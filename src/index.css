@@ -42,3 +42,10 @@
   color: teal;
   border: 1px solid teal;
 }
+
+
+.ant-table-thead .ant-table-cell {
+  background-color: teal !important;
+  color: rgb(255, 255, 255) !important;
+  height: 32px;
+}
