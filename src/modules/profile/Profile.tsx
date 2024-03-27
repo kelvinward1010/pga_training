@@ -235,6 +235,13 @@ export function Profile() {
             })
             setIsOpenUpload(false);
             setLoading(false);
+        }).catch(() => {
+            notification.error({
+                message: `Could not update avatar. Please try again!`,
+                icon: (
+                    <WarningOutlined className='warning'/>
+                )
+            })
         })
 } 
 
@@ -257,7 +264,7 @@ export function Profile() {
                     <>
                         <ReactCrop 
                             crop={crop} 
-                            onChange={(pixelCrop, percentCrop) => setCrop(percentCrop)}
+                            onChange={(percentCrop) => setCrop(percentCrop)}
                             keepSelection
                             circularCrop
                             aspect={1}

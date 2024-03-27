@@ -1,4 +1,4 @@
-import { isValidEmail, isValidPassword } from "../../../../../utils/validate";
+import { isValidEmail } from "../../../../../utils/validate";
 import { LoginParams, LoginValidation } from "../../../types";
 
 const validateEmail = (email: string) => {

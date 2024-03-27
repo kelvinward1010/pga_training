@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { DATA_LIST } from "./data";
 import styles from './style.module.scss';
-import { Button, Grid } from "@mantine/core";
+import { Button } from "@mantine/core";
 import { ItemType } from "../../types/user";
 import Item from "./components/item/Item";
 

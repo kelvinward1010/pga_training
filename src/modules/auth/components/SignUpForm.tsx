@@ -1,7 +1,6 @@
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { IGenderParams, ILocationParams, ISignUpParams } from "../types"
 import { GENDER } from "../data";
-import { validSignup, validateSignup } from "../pages/signup/utils";
 import { useDispatch } from "react-redux";
 import { registerUser, RegisterValues } from "../../../redux/actions/authActions";
 import { AppDispatch } from "../../../redux/store";
@@ -20,7 +19,6 @@ interface Props {
 }
 
 const SignUpForm: React.FC<Props> = ({
-    onSignUp,
     loading,
     errorMessage,
     locations,
@@ -36,7 +34,7 @@ const SignUpForm: React.FC<Props> = ({
         state: '',
     })
 
-    const [validate, setValidate] = useState<ISignUpParams>();
+    const [validate,] = useState<ISignUpParams>();
     const [state, setState] = useState<ILocationParams[]>([]);
     const [done, setDone] = useState(true);
     const dispatch: AppDispatch = useDispatch();
