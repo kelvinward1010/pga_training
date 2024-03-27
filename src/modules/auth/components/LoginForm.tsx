@@ -1,6 +1,5 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { LoginParams, LoginValidation } from "../types";
-import { validLogin, validateLogin } from "../pages/login/utils";
 import { AppDispatch } from "../../../redux/store";
 import { useDispatch } from "react-redux";
 import { loginUser } from "../../../redux/actions/authActions";
@@ -17,7 +16,6 @@ interface LoginFormProps {
 
 
 const LoginForm: React.FC<LoginFormProps> = ({
-    onLogin,
     loading,
     errorMessage,
 }) => {
@@ -29,7 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = ({
     })
 
     const navigate = useNavigate();
-    const [validate, setValidate] = useState<LoginValidation>();
+    const [validate,] = useState<LoginValidation>();
     const dispatch: AppDispatch = useDispatch();
 
     
@@ -40,17 +38,17 @@ const LoginForm: React.FC<LoginFormProps> = ({
         // }
     };
 
-    const onSubmit =  useCallback(() => {
-        const validate = validateLogin(formValues)
+    // const onSubmit =  useCallback(() => {
+    //     const validate = validateLogin(formValues)
         
-        setValidate(validate);
+    //     setValidate(validate);
 
-        if(!validLogin(validate)){
-            return;
-        }
+    //     if(!validLogin(validate)){
+    //         return;
+    //     }
 
-        onLogin(formValues);
-    },[formValues, onLogin]);
+    //     onLogin(formValues);
+    // },[formValues, onLogin]);
 
     const handleLogin = () => {
         const configdata = {

@@ -3,7 +3,7 @@ import SignUpForm from '../../components/SignUpForm'
 import { useCallback, useEffect, useState } from "react";
 import { ILocationParams, ISignUpParams } from "../../types";
 import { Link, useNavigate } from "react-router-dom";
-import { OTHER_API_URL, URL_LOCATION } from "../../../../contants/config";
+import { OTHER_API_URL } from "../../../../contants/config";
 import { useFetchApi } from "../../../../lib/api";
 import { notification } from "antd";
 import storage from "../../../../utils/storage";
@@ -12,7 +12,6 @@ import { homeUrl, signinUrl, signupUrl } from "../../../../routers/urls";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../../redux/store";
 import { getLocations } from "../../../../apis/location";
-import axios from "axios";
 
 export function SignUpPage() {
 
