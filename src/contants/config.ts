@@ -1,4 +1,4 @@
-export const BASE_URL = 'http://api.training.div3.pgtest.co/api/v1';
+export const BASE_URL = 'https://api.training.div3.pgtest.co/api/v1';
 export const URL_LOGIN = 'http://api.training.div3.pgtest.co/api/v1/auth/login';
 export const URL_REGISTER = 'http://api.training.div3.pgtest.co/api/v1/auth/register';
 export const URL_LOCATION = 'http://api.training.div3.pgtest.co/api/v1/location';
