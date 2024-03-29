@@ -35,7 +35,7 @@ function TableProduct() {
 
     useEffect(() => {
         getProduct().then((products) => {
-            setData(products?.data?.data);
+            setData(products?.data);
         })
     },[getProduct])
 
@@ -43,7 +43,7 @@ function TableProduct() {
 
     useEffect(() => {
         getProduct().then((products) => {
-            setData(products?.data?.data);
+            setData(products?.data);
         })
         setTimeout(handleSetRefesh, 1000)
     },[isRefeshProduct == true])

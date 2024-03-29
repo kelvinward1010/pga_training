@@ -21,3 +21,23 @@ export interface IDataProduct{
     createdAt: string;
     updatedAt: string;
 }
+
+
+export interface IlistDataProduct{
+    code: number;
+    message: string;
+    error: boolean;
+    data: IlistDataProduct[];
+}
+
+export interface IUpdateProduct{
+    code: number;
+    message: string;
+    error: boolean;
+}
+
+export interface ICreateProduct{
+    code: number;
+    message: string;
+    error: boolean;
+}

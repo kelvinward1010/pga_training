@@ -191,10 +191,10 @@ function Update(props: Props) {
         }
 
         updateProduct(data).then((product) => {
-            if(product.status === 200){
+            if(product.code === 200){
                 notification.success({
                     message: `Update product successfully!`,
-                    description: ` ${product?.data?.message}`,
+                    description: ` ${product?.message}`,
                     icon: (
                         <CheckCircleOutlined className="done" />
                     )

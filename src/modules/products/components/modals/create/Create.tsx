@@ -185,10 +185,10 @@ function Create(props: Props) {
         }
 
         createProduct(data).then((product) => {
-            if(product.status === 200){
+            if(product.code === 200){
                 notification.success({
                     message: `Create product successfully!`,
-                    description: ` ${product?.data?.message}`,
+                    description: ` ${product?.message}`,
                     icon: (
                         <CheckCircleOutlined className="done" />
                     )
