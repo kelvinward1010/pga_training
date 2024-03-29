@@ -37,10 +37,11 @@ interface CustomizedFormProps {
     fields: FieldData[];
     onSubmit: (data: any) => void;
     onFailure: (data: any) => void;
+    loading?: boolean;
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, loading }) => (
     <Form
         name="profile"
         {...formItemLayout}
@@ -126,7 +127,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 5, span: 14 }}>
-            <Button className={styles.button} htmlType="submit">
+            <Button loading={loading} className={styles.button} htmlType="submit">
                 Create
             </Button>
             <Button className={styles.button_reset} htmlType="reset">Reset</Button>
@@ -138,6 +139,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
 function Create(props: Props) {
 
     const [, setIsRefesh] = useRecoilState(refeshProductState);
+    const [loading, setLoading] = useState(false);
 
     const [fields, setFields] = useState<FieldData[]>([
         {
@@ -171,6 +173,7 @@ function Create(props: Props) {
     ]);
 
     const onFinish = (values: any) => {
+        setLoading(true);
         const data = {
             order: values.order,
             client: values.client,
@@ -191,6 +194,7 @@ function Create(props: Props) {
                     )
                 })
                 setIsRefesh(true);
+                setLoading(false);
                 props.setIsOpen(false);
             }else{
                 notification.error({
@@ -231,6 +235,7 @@ function Create(props: Props) {
                     }}
                     onFailure={(error: any) => onFinishFailed(error)}
                     onSubmit={(values: any) => onFinish(values)}
+                    loading={loading}
                 />
             </Modal>
         </>

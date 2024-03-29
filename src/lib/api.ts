@@ -33,7 +33,6 @@ export async function useFetchApi<T>(
     };
 
     const response = await apiClient(config);
-    console.log(response)
     return response.data
   } catch (error) {
     const axiosError = error as AxiosError;

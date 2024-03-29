@@ -53,14 +53,9 @@ export function SignUpPage() {
         })
     },[useFetchApi])
 
-    // useEffect(() => {
-    //     if (storage.getToken()) navigate(homeUrl)
-    // }, [navigate]);
-
     useEffect(() => {
         getLocations().then((res: any) => {
             setLocations(res.data)
-            console.log(res)
         })
     }, [getLocations]);
 

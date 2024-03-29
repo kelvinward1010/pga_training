@@ -1,4 +1,4 @@
-import { Button, Col, DatePicker, Form, Input, notification, Popconfirm, Row, Select, Table, TableColumnType, Typography } from "antd";
+import { Button, Col, DatePicker, Form, Input, notification, Popconfirm, Row, Select, Skeleton, Table, TableColumnType, Typography } from "antd";
 import styles from "./style.module.scss";
 import * as _ from "lodash/fp";
 import { IDataProduct } from "../../types";
@@ -315,14 +315,18 @@ function TableProduct() {
                 </Row>
             </Form>
             <div className={styles.container}>
-                <Table
-                    bordered
-                    columns={columns}
-                    dataSource={dataSelect ?? []}
-                    pagination={{
-                        pageSize: 5,
-                    }}
-                />
+                {dataSelect.length == 0 ? (
+                    <Skeleton active/>
+                ): (
+                    <Table
+                        bordered
+                        columns={columns}
+                        dataSource={dataSelect ?? []}
+                        pagination={{
+                            pageSize: 5,
+                        }}
+                    />
+                )}
             </div>
         </>
     )

@@ -5,10 +5,22 @@
     margin: 0 10px;
     align-items: center;
 
+    .logo{
+        cursor: pointer;
+        font-weight: 700;
+        font-size: 25px;
+    }
+
     .profile{
         display: flex;
         justify-content: center;
         align-items: center;
         cursor: pointer;
+
+        .name_user{
+            margin-left: 10px;
+            font-size: 20px;
+            font-weight: 500;
+        }
     }
 }

@@ -139,7 +139,6 @@ const SignUpForm: React.FC<Props> = ({
         if(formValues.region){
             getStatesInLocation(formValues.region).then((res: any) => {
                 setState(res.data)
-                console.log(res)
             })
         }
     },[formValues.region])

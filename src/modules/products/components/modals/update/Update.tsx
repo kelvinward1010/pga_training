@@ -39,10 +39,11 @@ interface CustomizedFormProps {
     fields: FieldData[];
     onSubmit: (data: any) => void;
     onFailure: (data: any) => void;
+    loading?: boolean;
 }
 
 
-const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit }) => (
+const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFailure, onSubmit, loading }) => (
     <Form
         name="profile"
         {...formItemLayout}
@@ -128,7 +129,7 @@ const CustomizedForm: React.FC<CustomizedFormProps> = ({ onChange, fields, onFai
         </Form.Item>
 
         <Form.Item wrapperCol={{ offset: 5, span: 14 }}>
-            <Button className={styles.button} htmlType="submit">
+            <Button loading={loading} className={styles.button} htmlType="submit">
                 Update
             </Button>
             <Button className={styles.button_reset} htmlType="reset">Reset</Button>
@@ -141,6 +142,7 @@ function Update(props: Props) {
 
     const [, setIsRefesh] = useRecoilState(refeshProductState);
     const [fields, setFields] = useState<FieldData[]>([]);
+    const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         setFields([
@@ -176,6 +178,7 @@ function Update(props: Props) {
     },[props.data])
 
     const onFinish = (values: any) => {
+        setLoading(true);
         const data = {
             id: props.data.id,
             order: values.order,
@@ -188,7 +191,6 @@ function Update(props: Props) {
         }
 
         updateProduct(data).then((product) => {
-            console.log(product)
             if(product.status === 200){
                 notification.success({
                     message: `Update product successfully!`,
@@ -198,6 +200,8 @@ function Update(props: Props) {
                     )
                 })
                 setIsRefesh(true);
+                setLoading(false);
+                props.setIsOpen(false);
             }else{
                 notification.error({
                     message: `Could not update product. Please try again!`,
@@ -240,6 +244,7 @@ function Update(props: Props) {
                     }}
                     onFailure={(error: any) => onFinishFailed(error)}
                     onSubmit={(values: any) => onFinish(values)}
+                    loading={loading}
                 />
             </Modal>
         </>

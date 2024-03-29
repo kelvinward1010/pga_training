@@ -17,7 +17,7 @@ function Header() {
     const dispatch = useDispatch();
     
     const user: any = useSelector((state: RootState) => state.auth.user);
-    
+
     const handeSignOut = useCallback(() => {
         dispatch(logout())
         storageFetch.clearToken();
@@ -39,7 +39,7 @@ function Header() {
             label: <>
                 <ButtonConfig
                     type={'fullbg'}
-                    onClick={() => navigate(`/detail/${user?.token}`)}
+                    onClick={() => navigate(`/detail/${user?.id}`)}
                     name="Detail User"
                 />
             </>,
@@ -60,7 +60,7 @@ function Header() {
     return (
         <>
             <div className={styles.container}>
-                <Text c="teal.4" onClick={() => navigate(homeUrl)} style={{cursor: 'pointer'}}>Kelvin Ward</Text>
+                <Text className={styles.logo} c="teal.4" onClick={() => navigate(homeUrl)}>PGA TRAINING</Text>
                 <div className={styles.right}>
                     <Dropdown
                         menu={{
@@ -70,7 +70,7 @@ function Header() {
                     >
                         <div className={styles.profile}>
                             <Avatar className={styles.avatar} src={`${URL_AVATAR}/${user?.avatar}` ?? null} icon={<UserOutlined />} />
-                            <Text c="teal.4" style={{marginLeft:"10px"}}>{user?.name}</Text>
+                            <Text className={styles.name_user} c="teal.4">{user?.name}</Text>
                         </div>
                     </Dropdown>
                 </div>
