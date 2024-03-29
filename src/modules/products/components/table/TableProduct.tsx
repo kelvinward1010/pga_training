@@ -320,7 +320,7 @@ function TableProduct() {
                     columns={columns}
                     dataSource={dataSelect ?? []}
                     pagination={{
-                        pageSize: 10,
+                        pageSize: 5,
                     }}
                 />
             </div>
