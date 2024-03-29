@@ -11,6 +11,7 @@ import { URL_AVATAR } from "../../contants/config";
 import { getUser } from "./api/getUser";
 import { update } from "../../redux/slices/authSlice";
 import { User } from "../../types/user";
+import { dataURLtoBlob } from "../../utils/exchange";
 
 const ASPECT_RATIO = 1;
 const MIN_DIMENSION = 150;
@@ -153,18 +154,6 @@ export function Profile() {
             value: user?.state,
         },
     ]);
-
-    // Hàm chuyển đổi Data URL sang Blob
-    function dataURLtoBlob(dataURL: string): Blob {
-        const byteString = atob(dataURL.split(',')[1]);
-        const mimeString = dataURL.split(',')[0].split(':')[1].split(';')[0];
-        const ab = new ArrayBuffer(byteString.length);
-        const ia = new Uint8Array(ab);
-        for (let i = 0; i < byteString.length; i++) {
-        ia[i] = byteString.charCodeAt(i);
-        }
-        return new Blob([ab], { type: mimeString });
-    }
 
 
     const onFinish = () => {}
